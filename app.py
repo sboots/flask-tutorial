@@ -3,6 +3,7 @@
 # Thanks to
 # https://scoutapm.com/blog/python-flask-tutorial-getting-started-with-flask
 from flask import Flask, render_template, request
+import os
 
 # Additional tutorials
 # https://code.visualstudio.com/docs/python/tutorial-flask
@@ -14,8 +15,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
+    environment = os.getenv('FLASK_ENV')
     # sending a variable to the template
-    return render_template('index.html', name='form tester')
+    return render_template('index.html', name='form tester', environment=environment)
 
 # serving form web page
 
