@@ -3,6 +3,7 @@
 # Thanks to
 # https://scoutapm.com/blog/python-flask-tutorial-getting-started-with-flask
 from flask import Flask, render_template, request
+from mixpanel import Mixpanel
 import os
 
 # Additional tutorials
@@ -10,6 +11,12 @@ import os
 # https://pythonspot.com/flask-web-app-with-python/
 
 app = Flask(__name__)
+
+# Mixpanel init
+# https://developer.mixpanel.com/docs/python
+mp = Mixpanel(os.getenv("MIXPANEL_TOKEN"))
+
+
 # home route
 
 
@@ -35,6 +42,12 @@ def handle_data():
     print('Name: ', request.form['name'])
     # we can also request.values
     print('Purchases: ', request.form['purchases'])
+
+    user_id = request.form['name']
+    purchases = request.form['purchases']
+    mp.track(user_id, 'Form submitted', {
+        'purchases': purchases
+    })
     return render_template('form-complete.html')
 
 
